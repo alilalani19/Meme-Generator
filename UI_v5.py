@@ -32,22 +32,25 @@ def pull_file():
     else:
         print('No file selected')
 
-#function 2 (allows user to add text ontop of an image via our UI
+#function 2 (allows user to add text ontop of an image via our UI)
 def process_meme():
     
+    #If user does not input a file (their picture), text is printed to signal user.
     if not selected_file_path:
         print('Please upload picture before adding text')
         return
-    
+    # First store the inputed meme text into a new variable, then if the meme text is over 23 characters,
+    # user is asked to limit text.
     meme_text = text_entry.get()
     if len(meme_text) > 23:
         print('Please limit text to 23 characters')
-        
+    # store file (picture) as a new variable and process that image with cv2 lib    
     picture = cv2.imread(selected_file_path)
-    
+    # Add text ontop of image, located at (10,100)
     cv2.putText(picture, meme_text, (10,100),
     cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,0) , 4)
     
+    #store the name and format of new pic as a new variable and save the new meme via cv2 lib
     output_name = 'Meme_Image.jpg'
     cv2.imwrite(output_name, picture)
     print(f'Meme successfully saved. File name is: {output_name}!')
@@ -73,9 +76,11 @@ img_label.pack(pady=20)
 entry_label = ctk.CTkLabel(root, text="2. Enter Meme Text (Under 23 Characters):")
 entry_label.pack(pady=5)
 
+#Text inside entry box to signal user where to enter text.
 text_entry = ctk.CTkEntry(root, width=350, placeholder_text="Type meme text here...")
 text_entry.pack(pady=10)
 
+#Attach Button to process meme function. Allows user to generate/process and save meme with click of a putton
 btn_make = ctk.CTkButton(root, text='3. Generate and Save Meme (Ali always has your back)', fg_color="green", hover_color="darkgreen", command=process_meme)
 btn_make.pack(pady=20)
 
