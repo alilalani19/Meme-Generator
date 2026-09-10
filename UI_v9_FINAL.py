@@ -1,3 +1,11 @@
+'''
+This program makes a meme with text on top of a picture. It allows the user to choose their own image, and write their own text on
+top of this image. It also allows the user to change the color of text by pressing certain buttons. Finally, it allows the user to save
+their new custom image as a .jpg file.
+Written by Ali Lalani
+Last updated 9/9/2026
+'''
+
 import cv2
 import customtkinter as ctk
 from customtkinter import filedialog
@@ -14,26 +22,37 @@ ctk.set_appearance_mode('System')
 #Set User UI button color and theme to Blue
 ctk.set_default_color_theme('blue')
 
-#Create a pull_file comand which opens finder to select image
+#Create a pull_file function which opens finder to select image
 def pull_file():
     global selected_file_path
     file_path = filedialog.askopenfilename(title="Select an Image")
     if file_path:
-        selected_file_path = file_path
-        print(f"File selected: {file_path}")
+        #Try the file path the user selected and see if its an image.
+        try:
+            selected_file_path = file_path
+            print(f"File selected: {file_path}")
         
-        #Load image via PIL library (included w/ customtkinter lib)
-        pil_image = Image.open(file_path)
+            #Load image via PIL library (included w/ customtkinter lib)
+            pil_image = Image.open(file_path)
         
-        #Convert pil image (python imaging library) to ctk image for UI
-        ctk_image = ctk.CTkImage(light_image=pil_image, dark_image=pil_image, size=(400, 300))
+            #Convert pil image (python imaging library) to ctk image for UI
+            ctk_image = ctk.CTkImage(light_image=pil_image, dark_image=pil_image, size=(400, 300))
         
-        #Change label while program is running for placeholder text
-        img_label.configure(image=ctk_image, text="")
+            #Change label while program is running for placeholder text
+            img_label.configure(image=ctk_image, text="")
         
-        #Python deletes file data after function is done running, therefore we need to keep file data by attaching it to the "label" itself
-        img_label.image = ctk_image
-        
+            #Python deletes file data after function is done running, therefore we need to keep file data by attaching it to the "label" itself
+            img_label.image = ctk_image
+            
+            #If the file path the user selected is not an image, display the custom meme.
+        except:
+            selected_file_path = None
+            print('Error, please select an image file')
+            
+            error_pil = Image.open('Error.jpg')
+            error_image = ctk.CTkImage(light_image=error_pil, dark_image=error_pil, size=(400, 300))
+            img_label.configure(
+                image=error_image)
     else:
         print('No file selected')
 

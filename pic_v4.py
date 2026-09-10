@@ -1,0 +1,35 @@
+import cv2
+print("this program makes a meme with text ontop of a picture")
+
+print('Make sure your picture is in the same folder as this script')
+
+# Take keyboard input from user to retreive file name (Picture on their computor)
+
+picture_file = (input('Enter the name of your picture file, including the extension, then press enter:'))
+
+# Read the image file
+
+picture = cv2.imread(picture_file)
+
+# Take keyboard input from user to retreive text user wants to add ontop of image
+
+picture_text = (input('Enter the text you want added to your image:'))
+
+# Add text ontop of cat.jpg
+                                                # Coordinates
+cv2.putText(picture, picture_text, (10,100),
+    cv2.FONT_HERSHEY_SIMPLEX, .75, (255,255,0) , 4)
+                     # FONT SIZE,   COLOR,    THICKNESS
+#Show the picture with the added text
+
+cv2.imshow('Meme' , picture)
+#Record the waitkey preessed by user and create a new variable
+keypressed = cv2.waitKey(0)
+
+
+while keypressed != 27:
+    print('invalid key:',keypressed)
+    keypressed = cv2.waitKey(0)
+
+#Now only way to do this is if user presses esc
+cv2.destroyAllWindows()
